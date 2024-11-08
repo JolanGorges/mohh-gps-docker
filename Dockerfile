@@ -11,7 +11,9 @@ COPY ./start_gps_instances.sh /var/www/mohh-gps/start_gps_instances.sh
 COPY ./mohh-gps.service /etc/systemd/system/mohh-gps.service
 COPY ./mohh-gps.timer /etc/systemd/system/mohh-gps.timer
 
-RUN mkdir -p /var/log/mohh-gps && \
+RUN systemctl mask \
+    systemd-logind.service getty.service getty.target && \
+    mkdir -p /var/log/mohh-gps && \
     touch /var/log/mohh-gps/mohz.log && \
     chmod +x /var/www/mohh-gps/start_gps_instances.sh && \
     systemctl enable mohh-gps.timer
